@@ -1,0 +1,6 @@
+{
+  "provider": "openai",
+  "model_name": "gpt-4o",
+  "api_key": "sk-cBSqdkbEj5pPeY9pg2TBxgWMX7E8lmLTh4JzamXoR7L1Oymp",
+  "api_base": "https://vip.DMXapi.com/v1"
+}

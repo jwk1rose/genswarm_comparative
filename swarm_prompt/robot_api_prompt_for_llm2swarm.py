@@ -168,11 +168,7 @@ class RobotApi:
 
         self.base_apis = [
             "get_all_robots_id",
-            'get_self_id',
-            "get_self_position",
-            "set_self_velocity",
             "get_self_radius",
-            "get_surrounding_environment_info",
             "get_all_robots_initial_position",
         ]
 
@@ -204,19 +200,19 @@ class RobotApi:
 
         self.base_prompt = [self.apis[api] for api in self.base_apis]
         self.task_apis = {
-            "bridging": ["stop_self"],
-            "aggregation": ["stop_self"],
-            "covering": ["get_environment_range", "stop_self"],
-            "crossing": ["stop_self"],
+            "bridging": [],
+            "aggregation": [],
+            "covering": ["get_environment_range", ],
+            "crossing": [],
             "encircling": ["get_prey_position", "get_prey_initial_position"],
             "exploration": [
                 "get_initial_unexplored_areas",
                 "get_environment_range",
-                "stop_self",
+
             ],
             "flocking": ["get_environment_range", "get_self_velocity"],
             "clustering": ["get_quadrant_target_position"],
-            "shaping": ["get_target_formation_points", "stop_self"],
+            "shaping": ["get_target_formation_points", ],
             "pursuing": ["get_lead_position"],
         }
 
