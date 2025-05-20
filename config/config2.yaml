@@ -1,0 +1,16 @@
+# Full Example: https://github.com/geekan/MetaGPT/blob/main/config/config2.example.yaml
+# Reflected Code: https://github.com/geekan/MetaGPT/blob/main/metagpt/config2.py
+#llm:
+#  api_type: "openai"  # or azure / ollama / open_llm etc. Check LLMType for more options
+#  model: "gpt-4o"  # or gpt-3.5-turbo-1106 / gpt-4-1106-preview
+#  base_url: "https://vip.dmxapi.com/v1"
+#  api_key: "sk-tT8XYVZUo5PZZsg1ppMNHOcJt0hZL59HSxI8B79VQSw6Wh7t"
+llm:
+  api_type: 'openai'
+  #  api_key: 'sk-uKFunE6kCNT7GuMwvdT2WXUxjpEVSxN8o8ynsONw6HSoAA2A'
+  #  api_key: 'sk-tT8XYVZUo5PZZsg1ppMNHOcJt0hZL59HSxI8B79VQSw6Wh7t'  # 1
+  api_key: 'sk-r9qfdF2lYiKx46j9d0UCzhrsDchgOcmq885KKr71pppkcxdm'  # TEST
+  model: 'gpt-4o'
+  base_url: "https://vip.dmxapi.com/v1"
+  use_system_prompt: True
+  stream: false
