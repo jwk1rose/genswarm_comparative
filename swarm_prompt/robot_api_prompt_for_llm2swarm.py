@@ -216,10 +216,9 @@ class RobotApi:
             "pursuing": ["get_lead_position"],
         }
 
-
     def get_api_prompt(
-        self, task_name: str = None, scope: str = None, only_names: bool = False
-    ) -> str :
+            self, task_name: str = None, scope: str = None, only_names: bool = False
+    ) -> str:
         """
         Get the prompt of the robot API.
         Parameters:

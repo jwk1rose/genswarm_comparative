@@ -170,11 +170,32 @@ def read_input_from_file(filepath):
     return content
 
 
-def one_shot_development():
-    from exp_seeting import UserRequirement, api_prompt,task_name
-    goal = UserRequirement
+def one_shot_development(args):
+    llm = args.llm
+    task_name=args.task_name
+    prompt_type=args.prompt_type
+    from swarm_prompt.user_requirements import get_user_commands
+    from swarm_prompt.robot_api_prompt_for_llm2swarm import robot_api
+
+    goal = get_user_commands(task_name,format_type=prompt_type)[0]
     function_name = "CustomMovement"
     examples = load_examples()
+
+    GLOBAL_ROBOT_API = robot_api.get_api_prompt(task_name, scope="global")
+    LOCAL_ROBOT_API = robot_api.get_api_prompt(task_name, scope="local")
+
+    api_prompt = f"""
+    In addition to the methods demonstrated in the example, the following APIs are also available and can be called directly using the format:
+    robot.[API_NAME]()
+
+    For example:
+    robot.get_prey_position()
+    robot.get_all_robots_initial_position()
+
+    ----
+    {GLOBAL_ROBOT_API}
+    {LOCAL_ROBOT_API}
+    """
 
     if not examples:
         print("Warning: The examples folder is empty.")
@@ -185,18 +206,19 @@ def one_shot_development():
 
     system_prompt = generate_system_prompt(goal, function_name, examples, robotapi=api_prompt)
     llm_client = get_llm_client()
-    print("system_prompt: ", system_prompt)
+    # print("system_prompt: ", system_prompt)
     custom_prompt = ''
     code = generate_code(system_prompt, custom_prompt, llm_client)
     from datetime import datetime
     import random
-    workspace_dir = f"../workspace/llm2swarm/{task_name}/{task_name}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')[:-3]}_{random.randint(1000000, 9999999)}"
+
+    workspace_dir = f"../workspace/llm2swarm/{llm}/{prompt_type}/{task_name}/{task_name}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')[:-3]}_{random.randint(1000000, 9999999)}"
     file_path = os.path.join(workspace_dir, "main.py")
     os.makedirs(workspace_dir, exist_ok=True)
     with open(file_path, 'w') as file:
         file.write(code)
-    print("Generated code:")
-    print(code)
+    # print("Generated code:")
+    # print(code)
 
 
 def iterative_development():
@@ -274,4 +296,27 @@ Please improve the controller.
 
 
 if __name__ == "__main__":
-    one_shot_development()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the robot experiment.")
+    # 添加 exp_batch 参
+    parser.add_argument(
+        "--task_name",
+        type=str,
+        default="",
+        help="The name of the task to run",
+    )
+    parser.add_argument(
+        "--llm",
+        type=str,
+        default="",
+        help="The name of the task to run",
+    )
+    parser.add_argument(
+        "--prompt_type",
+        type=str,
+        default="",
+        help="The mode of the run",
+    )
+    args = parser.parse_args()
+    one_shot_development(args)
